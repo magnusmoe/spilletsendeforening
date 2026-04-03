@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spillets Ende Forening – Tjøme</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink:       #1a1008;
+      --parchment: #f2e8d0;
+      --aged:      #d4b896;
+      --crimson:   #8b1a1a;
+      --gold:      #c9962a;
+      --gold-lt:   #e8c060;
+      --forest:    #2d4a2d;
+      --ocean:     #1a3a4a;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--ink);
+      color: var(--parchment);
+      font-family: 'Crimson Pro', Georgia, serif;
+      font-size: 1.15rem;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 1000; opacity: 0.6;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 900;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.75rem 2.5rem;
+      background: linear-gradient(to bottom, rgba(26,16,8,0.97), rgba(26,16,8,0.85));
+      border-bottom: 1px solid var(--gold);
+      backdrop-filter: blur(6px);
+    }
+    .nav-logo {
+      font-family: 'Cinzel', serif; font-weight: 900; font-size: 1.1rem;
+      color: var(--gold); letter-spacing: 0.05em; text-decoration: none;
+    }
+    .nav-logo span { color: var(--parchment); font-weight: 400; }
+    nav ul { list-style: none; display: flex; gap: 1.5rem; }
+    nav ul a {
+      font-family: 'Cinzel', serif; font-size: 0.75rem;
+      letter-spacing: 0.1em; color: var(--aged);
+      text-decoration: none; text-transform: uppercase; transition: color 0.2s;
+    }
+    nav ul a:hover { color: var(--gold-lt); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      position: relative; padding: 6rem 2rem 4rem;
+      text-align: center; overflow: hidden;
+    }
+    #hero::before {
+      content: ''; position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 30%, rgba(201,150,42,0.08) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 70%, rgba(26,58,74,0.4) 0%, transparent 55%),
+        radial-gradient(ellipse at 50% 50%, rgba(45,74,45,0.15) 0%, transparent 70%);
+    }
+    .stars {
+      position: absolute; inset: 0;
+      background-image:
+        radial-gradient(1px 1px at 10% 15%, rgba(255,255,220,0.7) 0%, transparent 100%),
+        radial-gradient(1px 1px at 25% 40%, rgba(255,255,220,0.5) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 40% 10%, rgba(255,255,220,0.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 60% 25%, rgba(255,255,220,0.4) 0%, transparent 100%),
+        radial-gradient(1px 1px at 75% 5%, rgba(255,255,220,0.7) 0%, transparent 100%),
+        radial-gradient(1px 1px at 85% 35%, rgba(255,255,220,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 35% 90%, rgba(255,255,220,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 70% 90%, rgba(255,255,220,0.4) 0%, transparent 100%);
+    }
+    #hero::after {
+      content: ''; position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(201,150,42,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(201,150,42,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    .hero-content { position: relative; z-index: 2; max-width: 780px; }
+
+    .hero-eyebrow {
+      font-family: 'Cinzel', serif; font-size: 0.75rem;
+      letter-spacing: 0.3em; color: var(--gold); text-transform: uppercase;
+      margin-bottom: 1.2rem; opacity: 0; animation: fadeUp 0.8s 0.2s forwards;
+    }
+    .hero-title {
+      font-family: 'Cinzel', serif; font-weight: 900;
+      font-size: clamp(3rem, 8vw, 6.5rem); line-height: 1.0;
+      color: var(--parchment);
+      text-shadow: 0 0 40px rgba(201,150,42,0.3), 0 2px 4px rgba(0,0,0,0.8);
+      margin-bottom: 0.4rem; opacity: 0; animation: fadeUp 0.9s 0.4s forwards;
+    }
+    .hero-title .accent { color: var(--gold); }
+    .hero-sub {
+      font-family: 'Cinzel', serif; font-size: clamp(1rem, 2.5vw, 1.5rem);
+      color: var(--aged); letter-spacing: 0.15em; margin-bottom: 2rem;
+      opacity: 0; animation: fadeUp 0.9s 0.6s forwards;
+    }
+    .hero-tagline {
+      font-style: italic; font-size: 1.2rem; color: var(--parchment);
+      opacity: 0; animation: fadeUp 0.9s 0.8s forwards;
+      margin-bottom: 2.5rem; max-width: 520px; margin-left: auto; margin-right: auto;
+    }
+
+    /* ── D20 SVG ── */
+    .d20-wrap {
+      display: block; margin: 0 auto 1.5rem;
+      opacity: 0; animation: fadeUp 0.9s 0.1s forwards;
+    }
+    .d20-svg {
+      width: 90px; height: 90px;
+      animation: slowSpin 22s linear infinite;
+      filter: drop-shadow(0 0 18px rgba(201,150,42,0.55));
+    }
+    @keyframes slowSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+    .btn-primary {
+      display: inline-block; font-family: 'Cinzel', serif;
+      font-size: 0.85rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--ink); background: linear-gradient(135deg, var(--gold-lt), var(--gold));
+      padding: 0.9rem 2.5rem; border: none; cursor: pointer; text-decoration: none;
+      clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+      transition: filter 0.2s, transform 0.2s;
+      opacity: 0; animation: fadeUp 0.9s 1s forwards;
+    }
+    .btn-primary:hover { filter: brightness(1.15); transform: translateY(-2px); }
+    .btn-secondary {
+      display: inline-block; font-family: 'Cinzel', serif;
+      font-size: 0.85rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--gold); background: transparent;
+      padding: 0.9rem 2.5rem; border: 1px solid var(--gold); cursor: pointer;
+      text-decoration: none; margin-left: 1rem;
+      clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+      transition: background 0.2s, color 0.2s, transform 0.2s;
+      opacity: 0; animation: fadeUp 0.9s 1.1s forwards;
+    }
+    .btn-secondary:hover { background: rgba(201,150,42,0.1); transform: translateY(-2px); }
+
+    .scroll-hint {
+      position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+      font-family: 'Cinzel', serif; font-size: 0.65rem;
+      letter-spacing: 0.2em; color: var(--gold);
+      opacity: 0; animation: fadeIn 1s 2s forwards;
+      display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+    }
+    .scroll-hint::after { content: '▼'; animation: bounce 1.5s ease-in-out infinite; }
+    @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
+
+    /* ── SHARED ── */
+    .rune-divider {
+      display: flex; align-items: center; gap: 1rem;
+      margin: 0 auto 3rem; max-width: 500px;
+      color: var(--gold); font-size: 1.2rem;
+    }
+    .rune-divider::before, .rune-divider::after {
+      content: ''; flex: 1; height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+    }
+
+    section { padding: 6rem 2rem; position: relative; }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+    .section-label {
+      font-family: 'Cinzel', serif; font-size: 0.7rem;
+      letter-spacing: 0.35em; color: var(--gold);
+      text-transform: uppercase; margin-bottom: 0.5rem;
+    }
+    .section-title {
+      font-family: 'Cinzel', serif; font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700; color: var(--parchment); margin-bottom: 1.5rem;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    }
+    .section-title .gold { color: var(--gold); }
+
+    /* ── OM OSS ── */
+    #om {
+      background: linear-gradient(to bottom, var(--ink), #120e06),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cpath d='M30 5 L55 20 L55 40 L30 55 L5 40 L5 20 Z' fill='none' stroke='rgba(201,150,42,0.04)' stroke-width='1'/%3E%3C/svg%3E") center/60px 60px;
+    }
+    .cards-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem; margin-top: 3rem;
+    }
+    .card {
+      background: linear-gradient(135deg, rgba(42,28,16,0.9), rgba(26,16,8,0.95));
+      border: 1px solid rgba(201,150,42,0.25);
+      padding: 2rem; position: relative; transition: border-color 0.3s, transform 0.3s;
+    }
+    .card:hover { border-color: var(--gold); transform: translateY(-4px); }
+    .card::before, .card::after {
+      content: ''; position: absolute; width: 14px; height: 14px;
+      border-color: var(--gold); border-style: solid;
+    }
+    .card::before { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
+    .card::after  { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+    .card-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+    .card-title { font-family: 'Cinzel', serif; font-size: 1.1rem; color: var(--gold); margin-bottom: 0.75rem; }
+    .card p { color: var(--aged); font-size: 1rem; }
+
+    /* ── AKTIVITETER ── */
+    #aktiviteter { background: linear-gradient(135deg, #120e06, #0e1a14, #120e06); }
+    .spill-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem; margin-top: 2.5rem;
+    }
+    .spill-card {
+      border: 1px solid rgba(201,150,42,0.2);
+      padding: 1.5rem; background: rgba(255,255,255,0.02);
+      position: relative; overflow: hidden; transition: all 0.3s;
+    }
+    .spill-card:hover { background: rgba(201,150,42,0.05); border-color: var(--gold-lt); }
+    .spill-card .tag {
+      font-family: 'Cinzel', serif; font-size: 0.6rem;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--crimson); margin-bottom: 0.5rem;
+    }
+    .spill-card h3 { font-family: 'Cinzel', serif; font-size: 1rem; color: var(--gold-lt); margin-bottom: 0.4rem; }
+    .spill-card p { font-size: 0.9rem; color: var(--aged); }
+    .spill-card .corner-die { position: absolute; top: 0.5rem; right: 0.75rem; font-size: 1.8rem; opacity: 0.15; }
+
+    /* ── KALENDER ── */
+    #kalender { background: linear-gradient(to bottom, #0e1a14, #120e06); }
+
+    .cal-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 0.9rem; margin-top: 2.5rem;
+    }
+    .cal-item {
+      display: flex; align-items: flex-start; gap: 1.2rem;
+      border: 1px solid rgba(201,150,42,0.18);
+      padding: 1.1rem 1.3rem;
+      background: rgba(255,255,255,0.02);
+      position: relative; transition: border-color 0.3s, background 0.3s;
+    }
+    .cal-item:hover { border-color: var(--gold); background: rgba(201,150,42,0.05); }
+    .cal-item.past { opacity: 0.38; }
+    .cal-item.next { border-color: var(--gold); background: rgba(201,150,42,0.08); }
+    .cal-item.next::before {
+      content: 'NESTE';
+      position: absolute; top: -0.6rem; left: 1rem;
+      font-family: 'Cinzel', serif; font-size: 0.55rem;
+      letter-spacing: 0.2em; color: var(--ink);
+      background: var(--gold); padding: 0.1rem 0.5rem;
+    }
+    .cal-date-box { flex-shrink: 0; text-align: center; min-width: 46px; }
+    .cal-day {
+      font-family: 'Cinzel', serif; font-size: 2rem; font-weight: 900;
+      color: var(--gold); line-height: 1;
+    }
+    .cal-month {
+      font-family: 'Cinzel', serif; font-size: 0.58rem;
+      letter-spacing: 0.15em; text-transform: uppercase; color: var(--aged);
+    }
+    .cal-info { flex: 1; }
+    .cal-weekday {
+      font-family: 'Cinzel', serif; font-size: 0.75rem;
+      letter-spacing: 0.1em; color: var(--parchment);
+      text-transform: capitalize; margin-bottom: 0.1rem;
+    }
+    .cal-time { font-size: 0.9rem; color: var(--aged); }
+    .cal-location { font-size: 0.78rem; color: rgba(212,184,150,0.45); font-style: italic; margin-top: 0.15rem; }
+
+    /* ── TJØME ── */
+    #tjome { background: linear-gradient(to bottom, #0a1418, #0e1a14 50%, #120e06); }
+    .map-wrapper {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 4rem; align-items: center; margin-top: 3rem;
+    }
+    @media (max-width: 700px) { .map-wrapper { grid-template-columns: 1fr; } }
+    .tjome-illustration { width: 100%; max-width: 440px; }
+    .map-text h2 { margin-bottom: 1rem; }
+    .map-text p { color: var(--aged); margin-bottom: 1rem; }
+    .location-pill {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: 'Cinzel', serif; font-size: 0.75rem; letter-spacing: 0.1em;
+      color: var(--ocean); background: var(--gold);
+      padding: 0.3rem 1rem;
+      clip-path: polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);
+      margin-bottom: 1.5rem;
+    }
+
+    /* ── MEMBERSHIP ── */
+    #medlemskap { background: linear-gradient(135deg, #120e06, #1a0808, #120e06); text-align: center; }
+    .membership-box {
+      max-width: 540px; margin: 3rem auto 0;
+      border: 1px solid var(--gold); padding: 3rem 2.5rem; position: relative;
+      background: linear-gradient(135deg, rgba(42,16,16,0.6), rgba(26,8,8,0.8));
+    }
+    .membership-box::before {
+      content: '✦ ── ✦'; position: absolute; top: -0.75rem; left: 50%; transform: translateX(-50%);
+      background: #120e06; padding: 0 1rem; color: var(--gold); font-size: 0.8rem; letter-spacing: 0.2em;
+    }
+    .membership-box::after {
+      content: '✦ ── ✦'; position: absolute; bottom: -0.75rem; left: 50%; transform: translateX(-50%);
+      background: #120e06; padding: 0 1rem; color: var(--gold); font-size: 0.8rem; letter-spacing: 0.2em;
+    }
+    .price-display {
+      font-family: 'Cinzel', serif; font-size: 4rem; font-weight: 900;
+      color: var(--gold); line-height: 1; margin: 1rem 0 0.25rem;
+      text-shadow: 0 0 30px rgba(201,150,42,0.4);
+    }
+    .price-display span { font-size: 1.5rem; vertical-align: super; }
+    .price-label {
+      font-family: 'Cinzel', serif; font-size: 0.7rem; letter-spacing: 0.3em;
+      color: var(--aged); margin-bottom: 2rem; text-transform: uppercase;
+    }
+    .perks { list-style: none; text-align: left; margin-bottom: 2rem; }
+    .perks li {
+      padding: 0.5rem 0; border-bottom: 1px solid rgba(201,150,42,0.1);
+      color: var(--aged); font-size: 1rem;
+    }
+    .perks li::before { content: '⚔ '; color: var(--gold); }
+
+    /* ── KONTAKT ── */
+    #kontakt { background: #0a0804; text-align: center; }
+    .kontakt-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; margin-top: 2.5rem; }
+    .kontakt-item { font-family: 'Cinzel', serif; font-size: 0.8rem; letter-spacing: 0.1em; color: var(--aged); }
+    .kontakt-item a { color: var(--gold); text-decoration: none; }
+    .kontakt-item a:hover { color: var(--gold-lt); }
+
+    footer {
+      padding: 2rem; text-align: center;
+      border-top: 1px solid rgba(201,150,42,0.15);
+      font-family: 'Cinzel', serif; font-size: 0.65rem;
+      letter-spacing: 0.2em; color: rgba(212,184,150,0.4);
+    }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 0.7; } }
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 600px) {
+      nav ul { display: none; }
+      .btn-secondary { margin-left: 0; margin-top: 0.75rem; display: block; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a class="nav-logo" href="#">⚔ Spillets <span>Ende</span></a>
+    <ul>
+      <li><a href="#om">Om oss</a></li>
+      <li><a href="#aktiviteter">Aktiviteter</a></li>
+      <li><a href="#kalender">Kalender</a></li>
+      <li><a href="#tjome">Tjøme</a></li>
+      <li><a href="#medlemskap">Bli medlem</a></li>
+      <li><a href="#kontakt">Kontakt</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="stars"></div>
+    <div class="hero-content">
+
+      <!-- Custom D20 SVG -->
+      <span class="d20-wrap">
+        <svg class="d20-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#e8c060"/>
+              <stop offset="100%" stop-color="#7a4a08"/>
+            </linearGradient>
+            <linearGradient id="g2" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#c9962a"/>
+              <stop offset="100%" stop-color="#4a2a05"/>
+            </linearGradient>
+            <linearGradient id="g3" x1="100%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#a07018"/>
+              <stop offset="100%" stop-color="#2a1403"/>
+            </linearGradient>
+          </defs>
+          <!-- Top face -->
+          <polygon points="50,6 80,40 20,40" fill="url(#g1)" stroke="#c9962a" stroke-width="1.2"/>
+          <!-- Left face -->
+          <polygon points="20,40 6,70 50,60" fill="url(#g2)" stroke="#c9962a" stroke-width="1.2"/>
+          <!-- Right face -->
+          <polygon points="80,40 94,70 50,60" fill="url(#g3)" stroke="#c9962a" stroke-width="1.2"/>
+          <!-- Bottom-left face -->
+          <polygon points="6,70 28,94 50,60" fill="url(#g2)" stroke="#c9962a" stroke-width="1.2"/>
+          <!-- Bottom-right face -->
+          <polygon points="94,70 72,94 50,60" fill="url(#g3)" stroke="#c9962a" stroke-width="1.2"/>
+          <!-- Bottom-center face -->
+          <polygon points="28,94 72,94 50,60" fill="url(#g1)" stroke="#c9962a" stroke-width="1.2"/>
+          <!-- "20" on top face -->
+          <text x="50" y="29" text-anchor="middle" dominant-baseline="middle"
+            fill="#1a0e04" font-family="Georgia,serif" font-weight="bold" font-size="14">20</text>
+          <!-- subtle smaller numbers -->
+          <text x="26" y="57" text-anchor="middle" fill="rgba(26,14,4,0.5)" font-family="serif" font-size="7">14</text>
+          <text x="74" y="57" text-anchor="middle" fill="rgba(26,14,4,0.5)" font-family="serif" font-size="7">7</text>
+          <text x="50" y="76" text-anchor="middle" fill="rgba(26,14,4,0.5)" font-family="serif" font-size="7">1</text>
+        </svg>
+      </span>
+
+      <p class="hero-eyebrow">⚓ Tjøme &nbsp;·&nbsp; Færder &nbsp;·&nbsp; Vestkanten av kartet</p>
+      <h1 class="hero-title">Spillets<br><span class="accent">Ende</span></h1>
+      <p class="hero-sub">Forening for brettspill & rollespill</p>
+      <p class="hero-tagline">«Her, der havet slutter og eventyret begynner, samles vi for å rulle terninger, le oss i hjel og redde verden.»</p>
+      <a href="#medlemskap" class="btn-primary">Bli medlem</a>
+      <a href="#kalender" class="btn-secondary">Se datoer</a>
+    </div>
+    <div class="scroll-hint">Scroll</div>
+  </section>
+
+  <!-- OM OSS -->
+  <section id="om">
+    <div class="section-inner">
+      <div class="reveal">
+        <p class="section-label">Hvem er vi</p>
+        <h2 class="section-title">Et sted for <span class="gold">alle eventyrere</span></h2>
+        <p style="max-width:620px; color:var(--aged);">
+          Spillets Ende er en frivillig ungdomsforening på Tjøme – et ordspill på Verdens Ende, vår kjære odde ytterst i Oslofjorden. Vi møtes på Tjøme ungdomsskole for brettspill, rollespill og god stemning.
+        </p>
+      </div>
+      <div class="cards-grid">
+        <div class="card reveal">
+          <div class="card-icon">🐉</div>
+          <h3 class="card-title">Rollespill</h3>
+          <p>Fra Dungeons & Dragons til hjemmelagde kampanjer. Alle har plass rundt bordet, enten du er en erfaren dungeon master eller en fersk eventyrspire.</p>
+        </div>
+        <div class="card reveal">
+          <div class="card-icon">🃏</div>
+          <h3 class="card-title">Brettspill</h3>
+          <p>Catan, Ticket to Ride, Die Laughing, Wingspan – vi spiller bredt. Foretrekker du å le deg i hjel eller erobre galaksen? Vi har noe for deg.</p>
+        </div>
+        <div class="card reveal">
+          <div class="card-icon">🗺️</div>
+          <h3 class="card-title">Fellesskap</h3>
+          <p>En trygg arena for ungdom på Tjøme og Nøtterøy. Nye venner, nye spill, og alltid noen å spille med – det er kjernen i Spillets Ende.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AKTIVITETER -->
+  <section id="aktiviteter">
+    <div class="section-inner">
+      <div class="reveal">
+        <p class="section-label">Hva skjer</p>
+        <h2 class="section-title">Aktiviteter & <span class="gold">Spillkvelder</span></h2>
+        <p style="color:var(--aged); max-width:580px; margin-bottom:1rem;">
+          Vi møtes jevnlig til spillkvelder og kampanjer. Her er et utvalg av hva som venter.
+        </p>
+      </div>
+      <div class="spill-grid">
+        <div class="spill-card reveal">
+          <span class="corner-die">⚔️</span>
+          <p class="tag">Rollespill</p>
+          <h3>D&D Kampanje</h3>
+          <p>Langkampanjer med faste grupper. Finn plass i en gruppe eller start din egen med hjelp fra erfarne DM-er.</p>
+        </div>
+        <div class="spill-card reveal">
+          <span class="corner-die">😂</span>
+          <p class="tag">Brettspill</p>
+          <h3>Die Laughing</h3>
+          <p>Vår favoritt! Beskriv din helts pinlige avgang og le deg til seier. Perfekt for spillkvelder med nye ansikter.</p>
+        </div>
+        <div class="spill-card reveal">
+          <span class="corner-die">🃏</span>
+          <p class="tag">Kortspill</p>
+          <h3>Kortspillkvelder</h3>
+          <p>Magic: The Gathering og andre kortspill. Ta med din deck eller lån et av våre nybegynnersett.</p>
+        </div>
+        <div class="spill-card reveal">
+          <span class="corner-die">🎲</span>
+          <p class="tag">Workshop</p>
+          <h3>Lær å spille</h3>
+          <p>Aldri prøvd D&D? Vi har jevnlige intro-kvelder for nybegynnere. Ingen forkunnskaper nødvendig.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- KALENDER -->
+  <section id="kalender">
+    <div class="section-inner">
+      <div class="reveal">
+        <p class="section-label">Når vi møtes</p>
+        <h2 class="section-title">Spillsamlinger <span class="gold">2025–2026</span></h2>
+        <p style="color:var(--aged); max-width:580px; margin-bottom:0.5rem;">
+          Alle samlinger holdes på <strong style="color:var(--parchment)">Tjøme ungdomsskole</strong>. Sjekk sosiale medier for eventuelle endringer.
+        </p>
+      </div>
+      <div class="cal-grid" id="calGrid"></div>
+    </div>
+  </section>
+
+  <!-- TJØME ILLUSTRASJON -->
+  <section id="tjome">
+    <div class="section-inner">
+      <div class="map-wrapper">
+
+        <div class="reveal" style="display:flex;justify-content:center;">
+          <svg class="tjome-illustration" viewBox="0 0 440 480" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="skyG" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#08121e"/>
+                <stop offset="55%" stop-color="#142a3a"/>
+                <stop offset="100%" stop-color="#1e3828"/>
+              </linearGradient>
+              <linearGradient id="seaG" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#0c2434"/>
+                <stop offset="100%" stop-color="#040e18"/>
+              </linearGradient>
+              <radialGradient id="moonG" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="rgba(240,220,160,0.32)"/>
+                <stop offset="100%" stop-color="rgba(0,0,0,0)"/>
+              </radialGradient>
+            </defs>
+
+            <!-- Sky -->
+            <rect width="440" height="480" fill="url(#skyG)"/>
+
+            <!-- Stars -->
+            <circle cx="38" cy="28" r="1.1" fill="rgba(255,255,220,0.85)"/>
+            <circle cx="88" cy="16" r="1.3" fill="rgba(255,255,220,0.7)"/>
+            <circle cx="148" cy="38" r="0.9" fill="rgba(255,255,220,0.65)"/>
+            <circle cx="198" cy="20" r="1.1" fill="rgba(255,255,220,0.9)"/>
+            <circle cx="258" cy="33" r="0.8" fill="rgba(255,255,220,0.6)"/>
+            <circle cx="308" cy="13" r="1.3" fill="rgba(255,255,220,0.8)"/>
+            <circle cx="368" cy="26" r="1" fill="rgba(255,255,220,0.7)"/>
+            <circle cx="418" cy="10" r="1.1" fill="rgba(255,255,220,0.55)"/>
+            <circle cx="68" cy="52" r="0.7" fill="rgba(255,255,220,0.5)"/>
+            <circle cx="338" cy="48" r="0.8" fill="rgba(255,255,220,0.6)"/>
+            <circle cx="128" cy="10" r="0.7" fill="rgba(255,255,220,0.45)"/>
+            <circle cx="398" cy="44" r="0.8" fill="rgba(255,255,220,0.5)"/>
+            <circle cx="22" cy="62" r="0.6" fill="rgba(255,255,220,0.4)"/>
+            <circle cx="180" cy="55" r="0.6" fill="rgba(255,255,220,0.4)"/>
+
+            <!-- Moon halo -->
+            <circle cx="358" cy="58" r="52" fill="url(#moonG)"/>
+            <!-- Moon -->
+            <circle cx="358" cy="58" r="21" fill="#ede0a0" opacity="0.88"/>
+            <!-- Moon shadow (crescent) -->
+            <circle cx="366" cy="52" r="17" fill="#142a3a" opacity="0.62"/>
+
+            <!-- Distant coastline silhouette -->
+            <path d="M0 228 Q40 218 80 223 Q120 228 145 215 Q172 202 205 213 Q235 223 270 210 Q312 197 362 208 Q402 217 440 205 L440 255 L0 255 Z"
+              fill="#162818" opacity="0.75"/>
+
+            <!-- Sea -->
+            <rect x="0" y="255" width="440" height="78" fill="url(#seaG)" opacity="0.95"/>
+
+            <!-- Wave lines on sea -->
+            <path d="M0 268 Q55 261 110 268 Q165 275 220 268 Q275 261 330 268 Q385 275 440 268" stroke="rgba(80,160,210,0.18)" stroke-width="1.5" fill="none"/>
+            <path d="M0 283 Q55 276 110 283 Q165 290 220 283 Q275 276 330 283 Q385 290 440 283" stroke="rgba(80,160,210,0.12)" stroke-width="1" fill="none"/>
+            <path d="M0 298 Q55 291 110 298 Q165 305 220 298 Q275 291 330 298 Q385 305 440 298" stroke="rgba(80,160,210,0.08)" stroke-width="1" fill="none"/>
+
+            <!-- Moon reflection on water -->
+            <ellipse cx="360" cy="272" rx="22" ry="3.5" fill="rgba(240,220,100,0.1)"/>
+            <rect x="355" y="260" width="10" height="70" fill="url(#moonG)" opacity="0.25"/>
+
+            <!-- Rocky foreground (Tjøme coast) -->
+            <path d="M0 328 Q25 308 65 316 Q95 322 128 308 Q158 296 196 306 Q235 315 275 302 Q315 290 348 304 Q388 317 440 306 L440 480 L0 480 Z"
+              fill="#18261a"/>
+            <path d="M0 344 Q48 332 98 338 Q148 344 198 336 Q258 327 318 335 Q378 343 440 332 L440 480 L0 480 Z"
+              fill="#1e2e20"/>
+            <!-- lighter top layer -->
+            <path d="M0 356 Q60 348 120 353 Q180 358 240 350 Q300 343 360 350 Q400 355 440 348 L440 480 L0 480 Z"
+              fill="#223226"/>
+
+            <!-- Grass tufts -->
+            <line x1="28" y1="340" x2="25" y2="324" stroke="#2a4228" stroke-width="2"/>
+            <line x1="34" y1="339" x2="32" y2="323" stroke="#2a4228" stroke-width="1.5"/>
+            <line x1="78" y1="330" x2="76" y2="315" stroke="#2a4228" stroke-width="2"/>
+            <line x1="84" y1="329" x2="82" y2="314" stroke="#2a4228" stroke-width="1.5"/>
+            <line x1="380" y1="320" x2="378" y2="306" stroke="#2a4228" stroke-width="2"/>
+            <line x1="386" y1="319" x2="384" y2="305" stroke="#2a4228" stroke-width="1.5"/>
+            <line x1="420" y1="326" x2="418" y2="312" stroke="#2a4228" stroke-width="2"/>
+
+            <!-- Pine trees -->
+            <polygon points="152,274 168,315 136,315" fill="#14281a"/>
+            <polygon points="152,290 166,322 138,322" fill="#16301c"/>
+            <polygon points="178,268 194,308 162,308" fill="#14281a"/>
+            <polygon points="178,284 192,316 164,316" fill="#16301c"/>
+            <polygon points="204,275 220,314 188,314" fill="#14281a"/>
+            <polygon points="204,291 218,320 190,320" fill="#16301c"/>
+            <!-- Tree trunks -->
+            <rect x="157" y="315" width="4" height="12" fill="#2a1a0a"/>
+            <rect x="183" y="308" width="4" height="12" fill="#2a1a0a"/>
+            <rect x="209" y="314" width="4" height="12" fill="#2a1a0a"/>
+
+            <!-- LIGHTHOUSE -->
+            <!-- Rock base -->
+            <ellipse cx="290" cy="308" rx="24" ry="8" fill="#2a2010" stroke="rgba(201,150,42,0.3)" stroke-width="0.8"/>
+            <!-- Platform -->
+            <rect x="272" y="298" width="36" height="12" rx="2" fill="#c8b080" stroke="rgba(201,150,42,0.5)" stroke-width="0.8"/>
+            <!-- Tower -->
+            <path d="M278 298 L275 228 L290 222 L305 228 L302 298 Z" fill="#ddd0a0"/>
+            <!-- Stripes -->
+            <path d="M276 278 L304 278 L303 290 L277 290 Z" fill="#8b1a1a" opacity="0.55"/>
+            <path d="M275.5 256 L304.5 256 L304 268 L276 268 Z" fill="#8b1a1a" opacity="0.55"/>
+            <path d="M275 234 L305 234 L304.5 246 L275.5 246 Z" fill="#8b1a1a" opacity="0.3"/>
+            <!-- Lantern room -->
+            <rect x="280" y="212" width="20" height="16" rx="1" fill="#1e1808" stroke="rgba(201,150,42,0.7)" stroke-width="1"/>
+            <!-- Windows glowing -->
+            <rect x="282" y="214" width="6" height="10" rx="1" fill="#f5e870" opacity="0.95"/>
+            <rect x="292" y="214" width="6" height="10" rx="1" fill="#f5e870" opacity="0.95"/>
+            <!-- Dome -->
+            <path d="M280 212 Q290 198 300 212 Z" fill="#c9962a" stroke="#e8c060" stroke-width="0.8"/>
+            <!-- Light rays -->
+            <path d="M290 204 L340 148 L380 162 L290 218" fill="rgba(245,230,80,0.055)"/>
+            <path d="M290 204 L240 144 L200 158 L290 218" fill="rgba(245,230,80,0.04)"/>
+            <!-- Lighthouse glow on water -->
+            <ellipse cx="290" cy="270" rx="14" ry="2.5" fill="rgba(245,230,80,0.08)"/>
+
+            <!-- Rowing boat -->
+            <path d="M56 275 Q78 263 100 275 L96 283 L60 283 Z" fill="#1a1008" opacity="0.65"/>
+            <line x1="78" y1="263" x2="78" y2="250" stroke="#1a1008" stroke-width="1.5" opacity="0.65"/>
+            <path d="M78 250 L94 260 L78 263 Z" fill="#1a1008" opacity="0.45"/>
+
+            <!-- School building silhouette (Tjøme ungdomsskole) in right background -->
+            <rect x="320" y="290" width="62" height="30" fill="#121c10" stroke="rgba(201,150,42,0.15)" stroke-width="0.5"/>
+            <rect x="326" y="280" width="12" height="12" fill="#121c10" stroke="rgba(201,150,42,0.15)" stroke-width="0.5"/>
+            <!-- windows -->
+            <rect x="325" y="295" width="7" height="6" fill="rgba(245,230,80,0.35)" rx="0.5"/>
+            <rect x="337" y="295" width="7" height="6" fill="rgba(245,230,80,0.25)" rx="0.5"/>
+            <rect x="349" y="295" width="7" height="6" fill="rgba(245,230,80,0.3)" rx="0.5"/>
+            <rect x="361" y="295" width="7" height="6" fill="rgba(245,230,80,0.2)" rx="0.5"/>
+            <text x="351" y="325" text-anchor="middle" fill="rgba(201,150,42,0.5)" font-family="serif" font-size="5" font-style="italic">TUSK</text>
+
+            <!-- Frame -->
+            <rect x="4" y="4" width="432" height="472" fill="none" stroke="rgba(201,150,42,0.4)" stroke-width="1.5"/>
+            <rect x="10" y="10" width="420" height="460" fill="none" stroke="rgba(201,150,42,0.12)" stroke-width="0.5"/>
+
+            <!-- Caption -->
+            <rect x="80" y="450" width="280" height="22" fill="rgba(8,14,8,0.88)" stroke="rgba(201,150,42,0.35)" stroke-width="0.8"/>
+            <text x="220" y="465" fill="#c9962a" font-family="serif" font-size="10" font-style="italic" text-anchor="middle" letter-spacing="2">Tjøme · Færder · Oslofjorden</text>
+          </svg>
+        </div>
+
+        <div class="map-text reveal">
+          <div class="location-pill">📍 Tjøme, Færder kommune</div>
+          <p class="section-label">Vår hjemmehavn</p>
+          <h2 class="section-title">Øya ved <span class="gold">verdens ende</span></h2>
+          <p>Vi holder til på Tjøme – en øy der havet møter himmelen og eventyrene begynner. Rett utenfor Tønsberg, ytterst i Oslofjorden.</p>
+          <p>Vi spiller på <strong style="color:var(--parchment)">Tjøme ungdomsskole</strong> – en trygg base for alle som vil utforske verdener på brett og papir.</p>
+          <p>Om sommeren spiller vi med sjøbrisen i nakken. Om vinteren samler vi oss rundt bordet med varme drikker og kalde terninger.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MEMBERSHIP -->
+  <section id="medlemskap">
+    <div class="section-inner">
+      <div class="reveal">
+        <p class="section-label">Bli en del av lauget</p>
+        <h2 class="section-title">Medlemskap i <span class="gold">Spillets Ende</span></h2>
+      </div>
+      <div class="membership-box reveal">
+        <p style="font-family:'Cinzel',serif; font-size:0.75rem; letter-spacing:0.2em; color:var(--aged);">ÅRSAVGIFT</p>
+        <div class="price-display"><span>kr</span> 50</div>
+        <p class="price-label">per år</p>
+        <ul class="perks">
+          <li>Tilgang til alle spillkvelder og arrangementer</li>
+          <li>Bli med i D&D-kampanjer og rollespillgrupper</li>
+          <li>Stemmerett på årsmøtet</li>
+        </ul>
+        <a href="#" class="btn-primary">Meld deg inn nå</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- KONTAKT -->
+  <section id="kontakt">
+    <div class="section-inner">
+      <div class="reveal">
+        <p class="section-label">Ta kontakt</p>
+        <h2 class="section-title">Finn oss &amp; <span class="gold">følg oss</span></h2>
+        <p style="color:var(--aged); max-width:500px; margin:0 auto 2rem;">
+          Spørsmål, innspill, eller bare lyst til å si hei? Vi er lette å nå.
+        </p>
+      </div>
+      <div class="kontakt-grid reveal">
+        <div class="kontakt-item">📧 E-post<br><a href="mailto:hei@spilletsende.no">hei@spilletsende.no</a></div>
+        <div class="kontakt-item">🌐 Nettside<br><a href="https://spilletsende.no">spilletsende.no</a></div>
+        <div class="kontakt-item">📍 Sted<br><span style="color:var(--aged);">Tjøme ungdomsskole</span></div>
+      </div>
+      <div class="rune-divider reveal" style="margin-top:4rem;">⚔ ᚠᚢᚦᚨᚱᚲ ⚔</div>
+      <p class="reveal" style="font-family:'Cinzel',serif; font-size:0.8rem; letter-spacing:0.15em; color:var(--aged); max-width:500px; margin:0 auto; font-style:italic;">
+        «Alle store eventyr begynner med en enkelt tur av terningen.»
+      </p>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2026 SPILLETS ENDE FORENING · TJØME · ALLE TERNINGER FORBEHOLDT</p>
+  </footer>
+
+  <script>
+    // ── KALENDER ──
+    const sessions = [
+      { date: new Date(2025, 0, 26), weekday: 'Søndag',  time: '11:00–14:00' },
+      { date: new Date(2025, 1,  3), weekday: 'Mandag',  time: '17:30' },
+      { date: new Date(2025, 1, 20), weekday: 'Torsdag', time: '11:00–14:00' },
+      { date: new Date(2025, 2,  2), weekday: 'Søndag',  time: '14:00–17:00' },
+      { date: new Date(2025, 2, 10), weekday: 'Mandag',  time: '17:00–20:00' },
+      { date: new Date(2025, 2, 21), weekday: 'Fredag',  time: '18:00–21:00' },
+      { date: new Date(2025, 3,  3), weekday: 'Torsdag', time: '15:00–18:00' },
+      { date: new Date(2025, 3,  7), weekday: 'Mandag',  time: '15:00–18:00' },
+      { date: new Date(2025, 3, 14), weekday: 'Mandag',  time: '17:30–20:30' },
+      { date: new Date(2025, 3, 25), weekday: 'Fredag',  time: '18:00–21:00' },
+    ];
+
+    const months = ['jan','feb','mar','apr','mai','jun','jul','aug','sep','okt','nov','des'];
+
+    const now = new Date(); now.setHours(0,0,0,0);
+    const nextIdx = sessions.findIndex(s => s.date >= now);
+
+    const grid = document.getElementById('calGrid');
+    sessions.forEach((s, i) => {
+      const isPast = s.date < now;
+      const isNext = i === nextIdx;
+      const el = document.createElement('div');
+      el.className = 'cal-item reveal' + (isPast ? ' past' : '') + (isNext ? ' next' : '');
+      el.innerHTML = `
+        <div class="cal-date-box">
+          <div class="cal-day">${s.date.getDate()}</div>
+          <div class="cal-month">${months[s.date.getMonth()]} ${s.date.getFullYear()}</div>
+        </div>
+        <div class="cal-info">
+          <div class="cal-weekday">${s.weekday}</div>
+          <div class="cal-time">🕐 ${s.time}</div>
+          <div class="cal-location">Tjøme ungdomsskole</div>
+        </div>`;
+      grid.appendChild(el);
+    });
+
+    // ── SCROLL REVEAL ──
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), i * 70);
+      });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // ── ACTIVE NAV ──
+    const navLinks = document.querySelectorAll('nav ul a');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      document.querySelectorAll('section[id]').forEach(s => {
+        if (window.scrollY >= s.offsetTop - 120) current = s.id;
+      });
+      navLinks.forEach(a => {
+        a.style.color = a.getAttribute('href') === '#' + current ? 'var(--gold)' : '';
+      });
+    });
+  </script>
+</body>
+</html>
