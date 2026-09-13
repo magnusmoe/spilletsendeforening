@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aktiviteter – Spillets Ende Forening</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .cal-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 0.9rem; margin-top: 2rem;
+    }
+    .cal-item {
+      display: flex; align-items: flex-start; gap: 1.2rem;
+      border: 1px solid rgba(201,150,42,0.18);
+      padding: 1.1rem 1.3rem;
+      background: rgba(255,255,255,0.02);
+      position: relative; transition: border-color 0.3s, background 0.3s;
+    }
+    .cal-item:hover { border-color: var(--gold); background: rgba(201,150,42,0.05); }
+    .cal-item.past { opacity: 0.35; }
+    .cal-item.next { border-color: var(--gold); background: rgba(201,150,42,0.08); }
+    .cal-item.next::before {
+      content: 'NESTE';
+      position: absolute; top: -0.6rem; left: 1rem;
+      font-family: 'Cinzel', serif; font-size: 0.55rem;
+      letter-spacing: 0.2em; color: var(--ink);
+      background: var(--gold); padding: 0.1rem 0.5rem;
+    }
+    .cal-date-box { flex-shrink: 0; text-align: center; min-width: 46px; }
+    .cal-day { font-family: 'Cinzel', serif; font-size: 2rem; font-weight: 900; color: var(--gold); line-height: 1; }
+    .cal-month { font-family: 'Cinzel', serif; font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--aged); }
+    .cal-info { flex: 1; }
+    .cal-weekday { font-family: 'Cinzel', serif; font-size: 0.75rem; letter-spacing: 0.1em; color: var(--parchment); margin-bottom: 0.1rem; }
+    .cal-time { font-size: 0.9rem; color: var(--aged); }
+    .cal-location { font-size: 0.78rem; color: rgba(212,184,150,0.45); font-style: italic; margin-top: 0.15rem; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a class="nav-logo" href="index.html">⚔ Spillets <span>Ende</span></a>
+    <ul>
+      <li><a href="index.html">Hjem</a></li>
+      <li><a href="om-oss.html">Om oss</a></li>
+      <li><a href="aktiviteter.html" class="active">Aktiviteter</a></li>
+      <li><a href="kontakt.html">Kontakt</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-header">
+    <div class="page-header-inner">
+      <p class="page-label">Hva vi gjør</p>
+      <h1 class="page-title">Aktiviteter & <span class="gold">Spillkvelder</span></h1>
+    </div>
+  </div>
+
+  <!-- HVA VI SPILLER -->
+  <section style="background: linear-gradient(to bottom, #120e06, #0e1a14);">
+    <div class="section-inner">
+      <div class="reveal">
+        <p class="section-label">Spilltyper</p>
+        <h2 class="section-title">Hva vi <span class="gold">spiller</span></h2>
+        <p style="color:var(--aged); margin-bottom:2rem;">
+          Vi spiller bredt – fra episke rollespillkampanjer til raske kortspill som passer for alle. Her er noe av det du kan forvente å finne på en spillkveld hos oss.
+        </p>
+      </div>
+
+      <div class="cards-grid">
+        <div class="card reveal">
+          <div class="card-icon">🐉</div>
+          <h3 class="card-title">Dungeons & Dragons</h3>
+          <p>Langkampanjer med faste grupper. Finn plass i en gruppe eller start din egen med hjelp fra erfarne DM-er. Alle nivåer velkommen.</p>
+        </div>
+        <div class="card reveal">
+          <div class="card-icon">😂</div>
+          <h3 class="card-title">Die Laughing</h3>
+          <p>Beskriv din helts pinlige avgang og le deg til seier. Favoritt blant nye og gamle spillere – perfekt for en god latter.</p>
+        </div>
+        <div class="card reveal">
+          <div class="card-icon">🐺</div>
+          <h3 class="card-title">Werewolf / Avalon</h3>
+          <p>Hvem er ulven? Hvem er forræderne? Sosiale bløffspill som setter vennskap på prøve og garanterer diskusjon etterpå.</p>
+        </div>
+        <div class="card reveal">
+          <div class="card-icon">🚫</div>
+          <h3 class="card-title">Secret Hitler</h3>
+          <p>Det klassiske politiske bløffspillet. Finn fascistene før det er for sent – og stol ikke blindt på noen rundt bordet.</p>
+        </div>
+        <div class="card reveal">
+          <div class="card-icon">🍣</div>
+          <h3 class="card-title">Sushi Go</h3>
+          <p>Raskt, morsomt og perfekt for korte pauser mellom lengre spill. Trekk kort, bygg menyen din og samle poeng.</p>
+        </div>
+        <div class="card reveal">
+          <div class="card-icon">🃏</div>
+          <h3 class="card-title">Red 7 & Faraway</h3>
+          <p>Smarte kortspill med enkle regler og dype valg. Red 7 endrer reglene underveis – Faraway handler om å planlegge ruten din klokt.</p>
+        </div>
+        <div class="card reveal">
+          <div class="card-icon">🏝️</div>
+          <h3 class="card-title">Catan</h3>
+          <p>Bygg, handle og strid om ressursene på øya. Et tidløst klassiker som alltid skaper engasjement rundt bordet.</p>
+        </div>
+        <div class="card reveal">
+          <div class="card-icon">🎲</div>
+          <h3 class="card-title">Og mye mer...</h3>
+          <p>Vi tar alltid med et bredt utvalg. Har du et favorittspill du vil introdusere? Ta det med – jo flere spill, jo bedre kveld.</p>
+        </div>
+      </div>
+
+      <div class="gold-divider reveal"></div>
+
+      <!-- KALENDER -->
+      <div class="reveal">
+        <p class="section-label">Når vi møtes</p>
+        <h2 class="section-title">Spillsamlinger <span class="gold">2025–2026</span></h2>
+        <p style="color:var(--aged); margin-bottom:0.5rem;">
+          Alle samlinger holdes på <strong style="color:var(--parchment)">Tjøme ungdomsskole</strong>. Sjekk sosiale medier for eventuelle endringer.
+        </p>
+      </div>
+      <div class="cal-grid" id="calGrid"></div>
+
+      <div class="gold-divider reveal"></div>
+
+      <!-- NYBEGYNNERE -->
+      <div class="reveal">
+        <p class="section-label">Ny her?</p>
+        <h2 class="section-title">Ingen erfaring <span class="gold">nødvendig</span></h2>
+        <p style="color:var(--aged); margin-bottom:1rem;">
+          Du trenger ikke ha spilt brettspill eller rollespill før for å bli med. Vi har alltid erfarne spillere som gjerne lærer bort regler og hjelper nye i gang.
+        </p>
+        <p style="color:var(--aged); margin-bottom:2rem;">
+          Bare møt opp til en spillkveld, si hei og sett deg ned. Vi finner et spill som passer for deg.
+        </p>
+        <a href="kontakt.html" class="btn-primary">Ta kontakt</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2026 SPILLETS ENDE FORENING · ORG.NR. 937 198 191 · TJØME</p>
+  </footer>
+
+  <script>
+    const sessions = [
+      { date: new Date(2025, 0, 26), weekday: 'Søndag',  time: '11:00–14:00' },
+      { date: new Date(2025, 1,  3), weekday: 'Mandag',  time: '17:30' },
+      { date: new Date(2025, 1, 20), weekday: 'Torsdag', time: '11:00–14:00' },
+      { date: new Date(2025, 2,  2), weekday: 'Søndag',  time: '14:00–17:00' },
+      { date: new Date(2025, 2, 10), weekday: 'Mandag',  time: '17:00–20:00' },
+      { date: new Date(2025, 2, 21), weekday: 'Fredag',  time: '18:00–21:00' },
+      { date: new Date(2025, 3,  3), weekday: 'Torsdag', time: '15:00–18:00' },
+      { date: new Date(2025, 3,  7), weekday: 'Mandag',  time: '15:00–18:00' },
+      { date: new Date(2025, 3, 14), weekday: 'Mandag',  time: '17:30–20:30' },
+      { date: new Date(2025, 3, 25), weekday: 'Fredag',  time: '18:00–21:00' },
+    ];
+    const months = ['jan','feb','mar','apr','mai','jun','jul','aug','sep','okt','nov','des'];
+    const now = new Date(); now.setHours(0,0,0,0);
+    const nextIdx = sessions.findIndex(s => s.date >= now);
+    const grid = document.getElementById('calGrid');
+    sessions.forEach((s, i) => {
+      const el = document.createElement('div');
+      el.className = 'cal-item' + (s.date < now ? ' past' : '') + (i === nextIdx ? ' next' : '');
+      el.innerHTML = `
+        <div class="cal-date-box">
+          <div class="cal-day">${s.date.getDate()}</div>
+          <div class="cal-month">${months[s.date.getMonth()]} ${s.date.getFullYear()}</div>
+        </div>
+        <div class="cal-info">
+          <div class="cal-weekday">${s.weekday}</div>
+          <div class="cal-time">🕐 ${s.time}</div>
+          <div class="cal-location">Tjøme ungdomsskole</div>
+        </div>`;
+      grid.appendChild(el);
+    });
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), i * 70);
+      });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
