@@ -411,7 +411,7 @@
     <div class="section-inner">
       <div class="reveal">
         <p class="section-label">Når vi møtes</p>
-        <h2 class="section-title">Spillsamlinger <span class="gold">2026</span></h2>
+        <h2 class="section-title">Spillsamlinger <span class="gold">2025</span></h2>
         <p style="color:var(--aged); max-width:580px; margin-bottom:0.5rem;">
           Alle samlinger holdes på <strong style="color:var(--parchment)">Tjøme ungdomsskole</strong> med mindre annet er angitt. Sjekk sosiale medier for eventuelle endringer.
         </p>
@@ -495,7 +495,17 @@
     }, { threshold: 0.08 });
 
     async function loadCalendar() {
-      const data = await fetch('sessions.json').then(r => r.json());
+      let data;
+      try {
+        const resp = await fetch('sessions.json');
+        if (!resp.ok) throw new Error('HTTP ' + resp.status);
+        data = await resp.json();
+      } catch (err) {
+        console.error('Kunne ikke laste sessions.json:', err);
+        document.getElementById('calGrid').innerHTML =
+          '<p style="color:var(--aged);font-style:italic;">Kunne ikke laste kalender. Prøv å laste siden på nytt.</p>';
+        return;
+      }
       const now = new Date(); now.setHours(0,0,0,0);
 
       // ── KOMMENDE ──
