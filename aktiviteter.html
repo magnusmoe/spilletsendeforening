@@ -114,18 +114,7 @@
 
       <div class="gold-divider reveal"></div>
 
-      <!-- KALENDER -->
-      <div class="reveal">
-        <p class="section-label">Når vi møtes</p>
-        <h2 class="section-title">Spillsamlinger <span class="gold">2025–2026</span></h2>
-        <p style="color:var(--aged); margin-bottom:0.5rem;">
-          Alle samlinger holdes på <strong style="color:var(--parchment)">Tjøme ungdomsskole</strong>. Sjekk sosiale medier for eventuelle endringer.
-        </p>
-      </div>
-      <div class="cal-grid" id="calGrid"></div>
-
-      <div class="gold-divider reveal"></div>
-
+     
       <!-- NYBEGYNNERE -->
       <div class="reveal">
         <p class="section-label">Ny her?</p>
@@ -145,44 +134,6 @@
     <p>© 2026 SPILLETS ENDE FORENING · ORG.NR. 937 198 191 · TJØME</p>
   </footer>
 
-  <script>
-    const months = ['jan','feb','mar','apr','mai','jun','jul','aug','sep','okt','nov','des'];
-
-    async function loadCalendar(gridId) {
-      const grid = document.getElementById(gridId);
-      if (!grid) return;
-      const sessions = await fetch('sessions.json').then(r => r.json());
-      const now = new Date(); now.setHours(0,0,0,0);
-      const nextIdx = sessions.findIndex(s => new Date(s.date) >= now);
-      sessions.forEach((s, i) => {
-        const d = new Date(s.date);
-        const isPast = d < now;
-        const isNext = i === nextIdx;
-        const el = document.createElement('div');
-        el.className = 'cal-item' + (isPast ? ' past' : '') + (isNext ? ' next' : '');
-        el.innerHTML = `
-          <div class="cal-date-box">
-            <div class="cal-day">${d.getDate()}</div>
-            <div class="cal-month">${months[d.getMonth()]} ${d.getFullYear()}</div>
-          </div>
-          <div class="cal-info">
-            <div class="cal-weekday">${s.weekday}</div>
-            <div class="cal-time">🕐 ${s.time}</div>
-            <div class="cal-location">Tjøme ungdomsskole</div>
-          </div>`;
-        grid.appendChild(el);
-        observer.observe(el);
-      });
-    }
-
-    loadCalendar('calGrid');
-
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach((e, i) => {
-        if (e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), i * 70);
-      });
-    }, { threshold: 0.08 });
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-  </script>
+  
 </body>
 </html>
