@@ -494,18 +494,43 @@
       });
     }, { threshold: 0.08 });
 
-    async function loadCalendar() {
-      let data;
-      try {
-        const resp = await fetch('sessions.json');
-        if (!resp.ok) throw new Error('HTTP ' + resp.status);
-        data = await resp.json();
-      } catch (err) {
-        console.error('Kunne ikke laste sessions.json:', err);
-        document.getElementById('calGrid').innerHTML =
-          '<p style="color:var(--aged);font-style:italic;">Kunne ikke laste kalender. Prøv å laste siden på nytt.</p>';
-        return;
-      }
+    // ── OPPDATER DATOER HER ──────────────────────────────────────────
+    const SESSIONS = {
+      kommende: [
+        { date: "2025-09-13", weekday: "Lørdag",  time: "12:00–15:00" },
+        { date: "2025-09-25", weekday: "Torsdag", time: "14:15–18:00", note: "Med middag" },
+        { date: "2025-10-04", weekday: "Lørdag",  time: "12:00–15:00" },
+        { date: "2025-10-10", weekday: "Fredag",  time: "12:00–22:00", location: "Oslo", note: "Oslotur – Korean Culture Festival og Ares spilldag. Meld interesse til Martine." },
+        { date: "2025-10-18", weekday: "Lørdag",  time: "?",           note: "Tønsberg Tabletop. Mer info kommer." }
+      ],
+      historikk: [
+        { date: "2025-01-26", time: "11:00–14:00" },
+        { date: "2025-02-03", time: "17:30–20:30" },
+        { date: "2025-02-20", time: "11:00–14:00" },
+        { date: "2025-03-02", time: "14:00–17:00" },
+        { date: "2025-03-10", time: "17:00–20:00" },
+        { date: "2025-03-21", time: "18:00–21:00" },
+        { date: "2025-04-03", time: "15:00–18:00" },
+        { date: "2025-04-07", time: "15:00–18:00" },
+        { date: "2025-04-14", time: "17:30–20:30" },
+        { date: "2025-04-25", time: "18:00–21:00" },
+        { date: "2025-05-11", time: "17:30–20:30" },
+        { date: "2025-05-14", time: "11:00–14:00" },
+        { date: "2025-05-25", time: "11:00–14:00" },
+        { date: "2025-05-31", time: "11:00–14:00" },
+        { date: "2025-06-05", time: "18:00–21:00" },
+        { date: "2025-06-14", time: "11:00–14:00" },
+        { date: "2025-08-02", time: "12:00–15:00" },
+        { date: "2025-08-07", time: "12:00–15:00" },
+        { date: "2025-08-16", time: "13:00–16:00" },
+        { date: "2025-09-05", time: "12:00–22:00" },
+        { date: "2025-09-06", time: "12:00–15:00" }
+      ]
+    };
+    // ────────────────────────────────────────────────────────────────
+
+    function loadCalendar() {
+      const data = SESSIONS;
       const now = new Date(); now.setHours(0,0,0,0);
 
       // ── KOMMENDE ──
