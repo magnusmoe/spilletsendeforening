@@ -1,0 +1,12 @@
+[
+  { "date": "2025-01-26", "weekday": "Søndag",  "time": "11:00–14:00" },
+  { "date": "2025-02-03", "weekday": "Mandag",  "time": "17:30" },
+  { "date": "2025-02-20", "weekday": "Torsdag", "time": "11:00–14:00" },
+  { "date": "2025-03-02", "weekday": "Søndag",  "time": "14:00–17:00" },
+  { "date": "2025-03-10", "weekday": "Mandag",  "time": "17:00–20:00" },
+  { "date": "2025-03-21", "weekday": "Fredag",  "time": "18:00–21:00" },
+  { "date": "2025-04-03", "weekday": "Torsdag", "time": "15:00–18:00" },
+  { "date": "2025-04-07", "weekday": "Mandag",  "time": "15:00–18:00" },
+  { "date": "2025-04-14", "weekday": "Mandag",  "time": "17:30–20:30" },
+  { "date": "2025-04-25", "weekday": "Fredag",  "time": "18:00–21:00" }
+]

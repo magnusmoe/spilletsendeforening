@@ -146,37 +146,36 @@
   </footer>
 
   <script>
-    const sessions = [
-      { date: new Date(2025, 0, 26), weekday: 'Søndag',  time: '11:00–14:00' },
-      { date: new Date(2025, 1,  3), weekday: 'Mandag',  time: '17:30' },
-      { date: new Date(2025, 1, 20), weekday: 'Torsdag', time: '11:00–14:00' },
-      { date: new Date(2025, 2,  2), weekday: 'Søndag',  time: '14:00–17:00' },
-      { date: new Date(2025, 2, 10), weekday: 'Mandag',  time: '17:00–20:00' },
-      { date: new Date(2025, 2, 21), weekday: 'Fredag',  time: '18:00–21:00' },
-      { date: new Date(2025, 3,  3), weekday: 'Torsdag', time: '15:00–18:00' },
-      { date: new Date(2025, 3,  7), weekday: 'Mandag',  time: '15:00–18:00' },
-      { date: new Date(2025, 3, 14), weekday: 'Mandag',  time: '17:30–20:30' },
-      { date: new Date(2025, 3, 25), weekday: 'Fredag',  time: '18:00–21:00' },
-    ];
     const months = ['jan','feb','mar','apr','mai','jun','jul','aug','sep','okt','nov','des'];
-    const now = new Date(); now.setHours(0,0,0,0);
-    const nextIdx = sessions.findIndex(s => s.date >= now);
-    const grid = document.getElementById('calGrid');
-    sessions.forEach((s, i) => {
-      const el = document.createElement('div');
-      el.className = 'cal-item' + (s.date < now ? ' past' : '') + (i === nextIdx ? ' next' : '');
-      el.innerHTML = `
-        <div class="cal-date-box">
-          <div class="cal-day">${s.date.getDate()}</div>
-          <div class="cal-month">${months[s.date.getMonth()]} ${s.date.getFullYear()}</div>
-        </div>
-        <div class="cal-info">
-          <div class="cal-weekday">${s.weekday}</div>
-          <div class="cal-time">🕐 ${s.time}</div>
-          <div class="cal-location">Tjøme ungdomsskole</div>
-        </div>`;
-      grid.appendChild(el);
-    });
+
+    async function loadCalendar(gridId) {
+      const grid = document.getElementById(gridId);
+      if (!grid) return;
+      const sessions = await fetch('sessions.json').then(r => r.json());
+      const now = new Date(); now.setHours(0,0,0,0);
+      const nextIdx = sessions.findIndex(s => new Date(s.date) >= now);
+      sessions.forEach((s, i) => {
+        const d = new Date(s.date);
+        const isPast = d < now;
+        const isNext = i === nextIdx;
+        const el = document.createElement('div');
+        el.className = 'cal-item' + (isPast ? ' past' : '') + (isNext ? ' next' : '');
+        el.innerHTML = `
+          <div class="cal-date-box">
+            <div class="cal-day">${d.getDate()}</div>
+            <div class="cal-month">${months[d.getMonth()]} ${d.getFullYear()}</div>
+          </div>
+          <div class="cal-info">
+            <div class="cal-weekday">${s.weekday}</div>
+            <div class="cal-time">🕐 ${s.time}</div>
+            <div class="cal-location">Tjøme ungdomsskole</div>
+          </div>`;
+        grid.appendChild(el);
+        observer.observe(el);
+      });
+    }
+
+    loadCalendar('calGrid');
 
     const observer = new IntersectionObserver(entries => {
       entries.forEach((e, i) => {
